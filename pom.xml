@@ -578,7 +578,7 @@ http://sourceforge.net/mailarchive/forum.php?forum=melati-cvs
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.7-SNAPSHOT</version>
+        <version>0.7.8</version>
         <executions>
           <execution>
             <id>pre-unit-test</id>
