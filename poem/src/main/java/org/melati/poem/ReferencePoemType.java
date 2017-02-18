@@ -45,8 +45,9 @@
 
 package org.melati.poem;
 
-import java.util.Enumeration;
 import org.melati.poem.util.StringUtils;
+
+import java.util.Enumeration;
 
 /**
  * A data type that is a reference to a {@link Persistent} object.
@@ -115,7 +116,9 @@ public class ReferencePoemType extends IndexPoemType implements PersistentRefere
   protected boolean _canRepresent(SQLPoemType<?> other) {
     return
         other instanceof PersistentReferencePoemType &&
-        ((PersistentReferencePoemType)other).targetTable() == targetTable();
+            ((PersistentReferencePoemType) other).targetTable() == targetTable()
+            ||
+            other instanceof IntegerPoemType; // hack to allow changing of types
   }
 
   protected void _saveColumnInfo(ColumnInfo columnInfo)
