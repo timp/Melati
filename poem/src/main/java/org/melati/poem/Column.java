@@ -45,15 +45,15 @@
 
 package org.melati.poem;
 
+import org.melati.poem.dbms.Dbms;
+import org.melati.poem.util.EmptyEnumeration;
+import org.melati.poem.util.StringUtils;
+
 import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Enumeration;
-
-import org.melati.poem.dbms.Dbms;
-import org.melati.poem.util.EmptyEnumeration;
-import org.melati.poem.util.StringUtils;
 
 /**
  * Abstract {@link Table} column which is extended by the generated classes.
@@ -103,7 +103,8 @@ public abstract class Column<T> implements FieldAttributes<T> {
     return getDatabase().getDbms();
   }
 
-  <O> void unifyType(SQLPoemType<O> storeType, DefinitionSource source) {
+  /* Public to enable changing an Integer to a referencepoemtype. */
+  public <O> void unifyType(SQLPoemType<O> storeType, DefinitionSource source) {
     PoemType<T> unified = dbms().canRepresent(storeType, type);
     if (unified == null || !(unified instanceof SQLPoemType))
       throw new TypeDefinitionMismatchException(this, storeType, source);
