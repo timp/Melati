@@ -316,15 +316,15 @@ public abstract class Database implements TransactionPool {
   }
 
   protected String unreservedName(String name) {
-    return dbms.unreservedName(name);
+    return getDbms().unreservedName(name);
   }
 
   protected String getJdbcMetadataName(String unreservedName) {
-    return dbms.getJdbcMetadataName(unreservedName);
+    return getDbms().getJdbcMetadataName(unreservedName);
   }
 
   protected String melatiName(String name) {
-    return dbms.melatiName(name);
+    return getDbms().melatiName(name);
   }
   /**
    * Add a Table to this Database and commit the Transaction.
@@ -400,7 +400,7 @@ public abstract class Database implements TransactionPool {
         ResultSet idCol = m.getColumns(null, getSchema(), unreservedName(tableName), getJdbcMetadataName(unreservedName(troidColumnName)));
         log("Discovered a primary key troid candidate column for jdbc table :" + tableName + ":" + troidColumnName);
         if (idCol.next()) {
-          if (dbms.canRepresent(defaultPoemTypeOfColumnMetaData(idCol), TroidPoemType.it) == null)
+          if (getDbms().canRepresent(defaultPoemTypeOfColumnMetaData(idCol), TroidPoemType.it) == null)
             if (troidColumnName.equals("id")) // a non-numeric id column
                                               // deserves an exception
               throw new UnificationPoemException("Primary Key " + troidColumnName + " cannot represent a Troid");
@@ -430,7 +430,7 @@ public abstract class Database implements TransactionPool {
                       break;
                     }
                     SQLPoemType<?> t = defaultPoemTypeOfColumnMetaData(idColNotPrimeKey);
-                    if (dbms.canRepresent(t, TroidPoemType.it) == null) {
+                    if (getDbms().canRepresent(t, TroidPoemType.it) == null) {
                       log("Unique Column " + uniqueKey + " cannot represent troid as it has type " + t);
                       uniqueKey = null;
                     }
@@ -1179,7 +1179,7 @@ public abstract class Database implements TransactionPool {
       return n;
     }
     catch (SQLException e) {
-      throw dbms.exceptionForUpdate(null, sql,
+      throw getDbms().exceptionForUpdate(null, sql,
                                     sql.indexOf("INSERT") >= 0 ||
                                       sql.indexOf("insert") >= 0,
                                     e);
@@ -1213,7 +1213,7 @@ public abstract class Database implements TransactionPool {
    */
   public String givesCapabilitySQL(User user, Capability capability) {
     // NOTE Bootstrapping to troid or we get a stack overflow
-    return dbms.givesCapabilitySQL(user.troid(), capability.troid().toString());
+    return getDbms().givesCapabilitySQL(user.troid(), capability.troid().toString());
   }
 
  /**
