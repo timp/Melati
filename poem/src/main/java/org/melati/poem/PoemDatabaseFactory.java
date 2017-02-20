@@ -256,7 +256,7 @@ public final class PoemDatabaseFactory {
    * Shutdown databases cleanly when JVM exits.
    * 
    * This method is called in one of two ways: when the jvm exits or when a 
-   * ServletContext is detroyed.
+   * ServletContext is destroyed.
    * Jetty, and presumably other servlet containers, registers its listeners as 
    * shutdown hooks too, so there is no way of determining which is to be executed first.
    * 
