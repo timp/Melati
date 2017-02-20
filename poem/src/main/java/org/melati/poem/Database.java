@@ -406,53 +406,56 @@ public abstract class Database implements TransactionPool {
               throw new UnificationPoemException("Primary Key " + troidColumnName + " cannot represent a Troid");
             else {
               log("Column " + troidColumnName + " cannot represent troid as it has type " + defaultPoemTypeOfColumnMetaData(idCol));
-              ResultSet u;
+              ResultSet u = null;
               try {
                 u = m.getIndexInfo
                     (null, getSchema(), unreservedName(tableName), true, false);
               } catch (SQLException e) {
-                throw new RuntimeException("IndexInfo not found for " + unreservedName(tableName), e);
+                log("IndexInfo not found for " + unreservedName(tableName));
               }
-              String unusableKey = troidColumnName;
-              troidColumnName = null;
-              String uniqueKey = null;
-              String foundKey = null;
-              while (u.next()) {
-                uniqueKey = u.getString("COLUMN_NAME");
-                if (!uniqueKey.equals(unusableKey)) {
-                  ResultSet idColNotPrimeKey = m.getColumns(null,
-                      getSchema(),
-                      unreservedName(tableName),
-                      getJdbcMetadataName(unreservedName(uniqueKey)));
-                  if (idColNotPrimeKey.next()) {
-                    if (idColNotPrimeKey.getInt("NULLABLE") != DatabaseMetaData.columnNoNulls) {
-                      idColNotPrimeKey.close();
-                      break;
-                    }
-                    SQLPoemType<?> t = defaultPoemTypeOfColumnMetaData(idColNotPrimeKey);
-                    if (getDbms().canRepresent(t, TroidPoemType.it) == null) {
-                      log("Unique Column " + uniqueKey + " cannot represent troid as it has type " + t);
-                      uniqueKey = null;
-                    }
-                    if (uniqueKey != null) {
-                      if (foundKey != null) {
+              if (u != null) {
+                String unusableKey = troidColumnName;
+                troidColumnName = null;
+                String uniqueKey = null;
+                String foundKey = null;
+                while (u.next()) {
+                  uniqueKey = u.getString("COLUMN_NAME");
+                  if (!uniqueKey.equals(unusableKey)) {
+                    ResultSet idColNotPrimeKey = m.getColumns(null,
+                        getSchema(),
+                        unreservedName(tableName),
+                        getJdbcMetadataName(unreservedName(uniqueKey)));
+                    if (idColNotPrimeKey.next()) {
+                      if (idColNotPrimeKey.getInt("NULLABLE") != DatabaseMetaData.columnNoNulls) {
                         idColNotPrimeKey.close();
-                        throw new UnificationPoemException(
-                            "Second unique, non-nullable numeric index found :" + uniqueKey
-                                + " already found " + foundKey);
+                        break;
                       }
-                      log("Unique Column " + uniqueKey + " can represent troid as it has type " + t);
-                      foundKey = uniqueKey;
+                      SQLPoemType<?> t = defaultPoemTypeOfColumnMetaData(idColNotPrimeKey);
+                      if (getDbms().canRepresent(t, TroidPoemType.it) == null) {
+                        log("Unique Column " + uniqueKey + " cannot represent troid as it has type " + t);
+                        uniqueKey = null;
+                      }
+                      if (uniqueKey != null) {
+                        if (foundKey != null) {
+                          idColNotPrimeKey.close();
+                          throw new UnificationPoemException(
+                              "Second unique, non-nullable numeric index found :" + uniqueKey
+                                  + " already found " + foundKey);
+                        }
+                        log("Unique Column " + uniqueKey + " can represent troid as it has type " + t);
+                        foundKey = uniqueKey;
+                      }
+                      idColNotPrimeKey.close();
+                    } else {
+                      throw new UnexpectedExceptionPoemException(
+                          "Found a unique key but no corresponding column");
                     }
-                    idColNotPrimeKey.close();
-                  } else
-                    throw new UnexpectedExceptionPoemException(
-                        "Found a unique key but no corresponding column");
 
-                  troidColumnName = uniqueKey;
+                    troidColumnName = uniqueKey;
+                  }
                 }
+                u.close();
               }
-              u.close();
             }
         } else
           throw new UnexpectedExceptionPoemException(
