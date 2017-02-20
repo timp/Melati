@@ -135,9 +135,13 @@ table $table.Name
 #foreach $column in $table.columns() #begin
 
 #if ($c) #begin
-    //$column 
+    //$column
 #end
+#if ($column.getType().toDsdType() == "ColumnType") #begin
+    $column.getDisplayName() $column.getName()
+#else
     $column.getType().toDsdType() $column.getName()
+#end
 
 #if ($column.isTroidColumn()) #begin
       (primary)
