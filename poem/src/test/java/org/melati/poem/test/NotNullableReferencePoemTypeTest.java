@@ -1,12 +1,8 @@
 package org.melati.poem.test;
 
-import java.util.Enumeration;
+import org.melati.poem.*;
 
-import org.melati.poem.Capability;
-import org.melati.poem.Group;
-import org.melati.poem.ReferencePoemType;
-import org.melati.poem.SQLPoemType;
-import org.melati.poem.ValidationPoemException;
+import java.util.Enumeration;
 
 /**
  * @author timp
@@ -97,4 +93,17 @@ Test with wrong parameters.   *
       e = null;
     }
   }
+
+  public void testCanRepresent() {
+    DisplayLevelPoemType dlpt = new DisplayLevelPoemType();
+    assertNull(it.canRepresent(dlpt));
+    assertNull(dlpt.canRepresent(it));
+
+    // Test hack which enables the promotion of an Integer to a ReferenceType
+    IntegerPoemType ipt = new IntegerPoemType(false);
+    PoemType pt = it.canRepresent(ipt);
+    assertNotNull(pt);
+  }
+
+
 }

@@ -114,11 +114,12 @@ public class ReferencePoemType extends IndexPoemType implements PersistentRefere
   }
 
   protected boolean _canRepresent(SQLPoemType<?> other) {
+    System.err.println("_canRep:" + other.getClass());
     return
         other instanceof PersistentReferencePoemType &&
             ((PersistentReferencePoemType) other).targetTable() == targetTable()
             ||
-            other instanceof IntegerPoemType; // hack to allow changing of types
+            other.getClass() == IntegerPoemType.class; // hack to allow changing of types
   }
 
   protected void _saveColumnInfo(ColumnInfo columnInfo)

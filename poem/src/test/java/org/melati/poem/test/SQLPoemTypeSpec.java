@@ -1,15 +1,9 @@
 package org.melati.poem.test;
 
+import org.melati.poem.*;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import org.melati.poem.DisplayLevelPoemType;
-import org.melati.poem.NullTypeMismatchPoemException;
-import org.melati.poem.PoemType;
-import org.melati.poem.SQLPoemType;
-import org.melati.poem.SQLSeriousPoemException;
-import org.melati.poem.SQLType;
-import org.melati.poem.TypeMismatchPoemException;
 
 /**
  * @author timp
@@ -254,15 +248,10 @@ abstract public class SQLPoemTypeSpec<T> extends PoemTestCase {
 
   }
 
-  /**
-   * Test method for
-   * {@link org.melati.poem.PoemType#canRepresent(org.melati.poem.PoemType)}.
-   */
   public void testCanRepresent() {
-    DisplayLevelPoemType dl = new DisplayLevelPoemType();
-    assertNull(it.canRepresent(dl));
-    assertNull(dl.canRepresent(it));
-
+    DisplayLevelPoemType dlpt = new DisplayLevelPoemType();
+    assertNull(it.canRepresent(dlpt));
+    assertNull(dlpt.canRepresent(it));
   }
 
   /**
