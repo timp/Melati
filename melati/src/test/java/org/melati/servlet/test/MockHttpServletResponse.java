@@ -6,9 +6,11 @@ package org.melati.servlet.test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,6 +76,26 @@ public class MockHttpServletResponse implements HttpServletResponse {
     public void setStatus(int arg0, String arg1) {
     }
 
+    @Override
+    public int getStatus() {
+        return 0;
+    }
+
+    @Override
+    public String getHeader(String s) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaders(String s) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaderNames() {
+        return null;
+    }
+
     public String getCharacterEncoding() {
       return "ISO-8859-1";
     }
@@ -83,6 +105,18 @@ public class MockHttpServletResponse implements HttpServletResponse {
         
             public void println(String arg0) throws IOException {
                 super.println(arg0);
+            }
+
+            @Override
+            public boolean isReady() {
+                throw new RuntimeException("TODO No one else has ever called this method." +
+                    " Do you really want to start now?");
+            }
+
+            @Override
+            public void setWriteListener(WriteListener writeListener) {
+                throw new RuntimeException("TODO No one else has ever called this method." +
+                    " Do you really want to start now?");
             }
 
             public void write(int b) throws IOException {
@@ -101,6 +135,11 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     public void setContentLength(int arg0) {
+    }
+
+    @Override
+    public void setContentLengthLong(long l) {
+
     }
 
     String contentType;

@@ -123,23 +123,6 @@
     <servlet-class>org.melati.login.Logout</servlet-class>
   </servlet>
   
-  <servlet>
-    <servlet-name>invoker</servlet-name>
-    <servlet-class>org.mortbay.jetty.servlet.Invoker</servlet-class>
-    <init-param>
-      <param-name>verbose</param-name>
-      <param-value>false</param-value>
-    </init-param>
-    <init-param>
-      <param-name>nonContextServlets</param-name>
-      <param-value>false</param-value>
-    </init-param>
-    <init-param>
-      <param-name>dynamicParam</param-name>
-      <param-value>anyValue</param-value>
-    </init-param>
-    <load-on-startup>0</load-on-startup>
-  </servlet>
 
 <!-- Now map them to URLs -->
   <servlet-mapping>
@@ -348,8 +331,6 @@
 
 
 
-  <servlet-mapping> <servlet-name>invoker</servlet-name> <url-pattern>/servlet/*</url-pattern> </servlet-mapping>
-  
 </web-app>
 
 

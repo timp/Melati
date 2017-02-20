@@ -157,7 +157,7 @@ public class TemplateServletTest extends PoemServletTest {
             "org/melati/template/webmacro/templets/html/error/org.melati.template.TemplateEngineException.wm");
     
     
-    mockHttpServletRequest.setParameter("passback", "true");
+    mockHttpServletRequest.setParameter("passback", new String[]{"true"});
     org.melati.test.TemplateServletTest aServlet = 
           new org.melati.test.TemplateServletTest();
     aServlet.init(mockServletConfig);
@@ -184,7 +184,7 @@ public class TemplateServletTest extends PoemServletTest {
             "org/melati/template/webmacro/templets/html/error/org.melati.template.TemplateEngineException.wm");
     
     
-    mockHttpServletRequest.setParameter("propagate", "true");
+    mockHttpServletRequest.setParameter("propagate", new String[]{"true"});
     org.melati.test.TemplateServletTest aServlet = 
           new org.melati.test.TemplateServletTest();
     aServlet.init(mockServletConfig);

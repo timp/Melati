@@ -4,11 +4,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.webapp.WebAppContext;
-import org.mortbay.resource.FileResource;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.NetworkConnector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import net.sourceforge.jwebunit.junit.WebTestCase;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.StdErrLog;
 
 /**
  *
@@ -28,18 +34,11 @@ public class JettyWebTestCase extends WebTestCase {
   protected static String referenceOutputDir = "src/test/resources";
 
   protected static int actualPort;  
-  /**
-   * 
-   * Default constructor.
-   */
+
   public JettyWebTestCase() {
     super();
   }
 
-  /**
-   * Constructor, with name.
-   * @param name
-   */
   public JettyWebTestCase(String name) {
     super(name);
   }
@@ -54,29 +53,30 @@ public class JettyWebTestCase extends WebTestCase {
     super.tearDown();
   }
   
-  /**
-   * If you don't know by now.
-   * @param args
-   * @throws Exception
-   */
   public static void main(String[] args) throws Exception {
     actualPort = startServer(8080);
   }
 
   protected static int startServer(int port) throws Exception {
-    
+    Log.setLog(new StdErrLog());
+
     if (!started) { 
       server = new Server(port);
-      WebAppContext wac = new WebAppContext(
-              getWebAppDirName(), "/" + getContextName());
-      FileResource.setCheckAliases(false); 
-      server.addHandler(wac);
+      WebAppContext wac = new WebAppContext();
+      wac.setContextPath("/" + getContextName());
+      wac.setResourceBase(new File(getWebAppDirName()).getAbsolutePath());
+      wac.setDescriptor(getWebAppDirName() + "/WEB-INF/web.xml");
+      wac.setLogUrlOnStart(true);
+
+      HandlerList handlers = new HandlerList();
+      handlers.setHandlers(new Handler[] { wac, new DefaultHandler()});
+      server.setHandler(handlers);
       server.start();
-      wac.dumpUrl();
+      server.dumpStdErr();
+      server.join();
       started = true;
     }
-    // getLocalPort returns the port that was actually assigned
-    return server.getConnectors()[0].getLocalPort();
+    return ((NetworkConnector)server.getConnectors()[0]).getLocalPort();
     
   }
   
@@ -92,18 +92,11 @@ public class JettyWebTestCase extends WebTestCase {
     assertTextPresent("Hello World!");
   }
   
-   /**
-   * {@inheritDoc}
-   * @see net.sourceforge.jwebunit.junit.WebTestCase#beginAt(java.lang.String)
-   */
-  public void beginAt(String url) { 
+  public void beginAt(String url) {
     super.beginAt(contextUrl(url));
   }
-  /**
-   * {@inheritDoc}
-   * @see net.sourceforge.jwebunit.junit.WebTestCase#gotoPage(java.lang.String)
-   */
-  public void gotoPage(String url) { 
+
+  public void gotoPage(String url) {
     System.err.println(contextUrl(url));
     super.gotoPage(contextUrl(url));
   }
@@ -111,9 +104,6 @@ public class JettyWebTestCase extends WebTestCase {
     return "/" + getContextName()  + url;
   }
 
-  /**
-   * @return the contextName
-   */
   public static String getContextName() {
     return contextName;
   }
@@ -125,16 +115,10 @@ public class JettyWebTestCase extends WebTestCase {
     return webAppDirName;
   }
 
-  /**
-   * @param contextName the contextName to set
-   */
   protected static void setContextName(String contextName) {
     JettyWebTestCase.contextName = contextName;
   }
 
-  /**
-   * @param webAppDirName the webAppDirName to set
-   */
   protected static void setWebAppDirName(String webAppDirName) {
     JettyWebTestCase.webAppDirName = webAppDirName;
   }
@@ -142,6 +126,7 @@ public class JettyWebTestCase extends WebTestCase {
   private boolean generateCached() { 
     return false;
   }
+
   protected void assertPageEqual(String url, String fileName) throws Exception { 
     beginAt(url);
     String generated = getTester().getPageSource();
