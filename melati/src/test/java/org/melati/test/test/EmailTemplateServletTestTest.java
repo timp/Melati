@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,58 +41,49 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 /**
  * @author timp
- * @since  7 Mar 2008
- *
+ * @since 7 Mar 2008
  */
 public class EmailTemplateServletTestTest extends JettyWebTestCase {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public EmailTemplateServletTestTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
   /**
    * Will only work on a machine allowed to relay.
-   * @throws Exception
    */
+  @Test
   public void testInvoke() throws Exception {
     beginAt("/org.melati.test.EmailTemplateServletTest");
     assertTextPresent("Smtp Server");
     submit();
     assertTextPresent("Check your email");
-    
+
   }
 
-  public void testError() throws Exception { 
+  @Test
+  public void testError() throws Exception {
     // Do it with a db this time for coverage
     beginAt("/org.melati.test.EmailTemplateServletTest/melatitest");
     assertTextPresent("Smtp Server");
     setTextField("to", "timp");
     submit();
     assertTextPresent("Check your email");
-    
   }
-  
+
 }

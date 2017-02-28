@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,49 +41,46 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setScriptingEnabled;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author timp
- * @since  7 Mar 2008
- *
+ * @since 7 Mar 2008
  */
 public class TemplateServletTestOverrideTest extends TemplateServletTestTest {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public TemplateServletTestOverrideTest(String name) {
-    super(name);
-  }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeClass
+  public static void setUp() throws Exception {
+    TemplateServletTestTest.setUp();
     servletName = "/org.melati.test.TemplateServletTestOverride/admintest/";
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    TemplateServletTestTest.tearDown();
   }
 
   /**
    * Click propagate link, get login screen.
    */
+  @Test
   public void testPropagateException() {
     setScriptingEnabled(false);
     beginAt(servletName);
-    try { 
+    try {
       clickLinkWithText("?propagate=true");
       fail("Should have bombed");
-    } catch (Exception e) { 
+    } catch (Exception e) {
       assertTrue(e.getMessage().indexOf("401 You need the capability _administer_ but your access token _guest_ doesnt confer it") != -1);
     }
   }

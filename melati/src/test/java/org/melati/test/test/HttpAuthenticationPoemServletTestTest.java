@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,6 +41,13 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author timp
@@ -52,34 +56,21 @@ package org.melati.test.test;
  */
 public class HttpAuthenticationPoemServletTestTest extends PoemServletTestTest {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public HttpAuthenticationPoemServletTestTest(String name) {
-    super(name);
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.melati.test.test.PoemServletTestTest#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeClass
+  public static void setUp() throws Exception {
+    PoemServletTestTest.setUp();
     servletName = "org.melati.test.HttpAuthenticationPoemServletTest";
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.test.test.PoemServletTestTest#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    PoemServletTestTest.tearDown();
   }
 
   /**
    * Click Exception link.
    */
+  @Test
   public void testAccessException() {
     setScriptingEnabled(false);
     beginAt("/" + servletName + "/melatitest");

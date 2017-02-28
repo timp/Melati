@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,46 +41,37 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 /**
  * @author timp
- * @since  7 Mar 2008
- *
+ * @since 7 Mar 2008
  */
 public class SessionAnalysisServletTest extends JettyWebTestCase {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public SessionAnalysisServletTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
+  }
+
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-  /**
-   * Not much of a test, as it behaves differently depending upon previous tests. 
-   * Cannot get the coverage much bigger, easily, as 
+   * Not much of a test, as it behaves differently depending upon previous tests.
+   * Cannot get the coverage much bigger, easily, as
    * there are no other current sessions during test.
-   * 
-   * @throws Exception
    */
+  @Test
   public void testInvoke() throws Exception {
+
     beginAt("/");
     gotoPage("/Admin/melatitest/Main");
     gotoFrame("admin_top");

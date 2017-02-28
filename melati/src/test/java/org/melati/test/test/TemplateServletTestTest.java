@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -45,45 +42,43 @@ package org.melati.test.test;
 
 import java.io.File;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setScriptingEnabled;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
 /**
  * @author timp
  * @since 7 Mar 2008
- *
  */
 public class TemplateServletTestTest extends JettyWebTestCase {
 
-  protected String servletName;
-  /**
-   * @param name
-   */
-  public TemplateServletTestTest(String name) {
-    super(name);
-  }
+  protected static String servletName;
 
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
     servletName = "/org.melati.test.TemplateServletTest/admintest/";
   }
 
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
    * Click Exception link.
    */
+  @Test
   public void testException() {
     setScriptingEnabled(false);
     beginAt(servletName);
@@ -98,6 +93,7 @@ public class TemplateServletTestTest extends JettyWebTestCase {
    * Click passback link, see exception message.
    * FIXME Webmacro only test
    */
+  @Test
   public void testPassbackException() {
     setScriptingEnabled(false);
     beginAt(servletName);
@@ -107,6 +103,7 @@ public class TemplateServletTestTest extends JettyWebTestCase {
   /**
    * Click propagate link, get login screen.
    */
+  @Test
   public void testPropagateException() {
     setScriptingEnabled(false);
     beginAt(servletName);
@@ -127,7 +124,8 @@ public class TemplateServletTestTest extends JettyWebTestCase {
   /**
    * Fill and click upload.
    */
-  public void testUpload() { 
+  @Test
+  public void testUpload() {
     setScriptingEnabled(false);
     beginAt("/org.melati.login.Login/admintest");
     setTextField("field_login", "_administrator_");
@@ -151,6 +149,7 @@ public class TemplateServletTestTest extends JettyWebTestCase {
   /**
    * Click Redirect link.
    */
+  @Test
   public void testRedirect() {
     setScriptingEnabled(false);
     beginAt(servletName);
@@ -161,7 +160,8 @@ public class TemplateServletTestTest extends JettyWebTestCase {
   /**
    * Click view.
    */
-  public void testView() { 
+  @Test
+  public void testView() {
     setScriptingEnabled(false);
     beginAt(servletName );
     clickLinkWithText("tableinfo/0/View");

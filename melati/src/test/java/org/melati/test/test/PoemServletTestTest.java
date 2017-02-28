@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -43,66 +40,59 @@
  */
 package org.melati.test.test;
 
-import java.io.File;
-
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import java.io.File;
 
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author timp
  * @since 6 Mar 2008
- *
  */
 public class PoemServletTestTest extends JettyWebTestCase {
 
-  protected String servletName;
-  
-  /**
-   * @param name
-   */
-  public PoemServletTestTest(String name) {
-    super(name);
-    servletName = "org.melati.test.PoemServletTest";
+  protected static String servletName = "org.melati.test.PoemServletTest";
+
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
-  }
-
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
    * Click Exception link.
    */
+  @Test
   public void testException() {
     setScriptingEnabled(false);
     beginAt("/" + servletName + "/melatitest");
-    try { 
+    try {
       clickLinkWithText("Exception");
-    } catch (FailingHttpStatusCodeException e) { 
+    } catch (FailingHttpStatusCodeException e) {
       assertEquals(500, e.getStatusCode());
     }
-    
+
     assertTextPresent("MelatiBugMelatiException");
   }
+
   /**
    * Click Exception link.
    */
+  @Test
   public void testAccessException() {
     setScriptingEnabled(false);
-    beginAt("/" + servletName + "/melatitest" );
+    beginAt("/" + servletName + "/melatitest");
     clickLinkWithText("Access Poem Exception");
     assertTextPresent("You need the capability _administer_ ");
     setTextField("field_login", "_administrator_");
@@ -111,10 +101,11 @@ public class PoemServletTestTest extends JettyWebTestCase {
     submit("action");
     assertTextPresent("You are logged in as _administrator_ and have _administer_ capability");
   }
-  
+
   /**
    * Click Exception link.
    */
+  @Test
   public void testAccessAllowed() {
     setScriptingEnabled(false);
     beginAt("/org.melati.login.Login/admintest");
@@ -130,16 +121,19 @@ public class PoemServletTestTest extends JettyWebTestCase {
   /**
    * Click view.
    */
-  public void testView() { 
+  @Test
+  public void testView() {
     setScriptingEnabled(false);
-    beginAt("/" + servletName +"/melatitest/");
+    beginAt("/" + servletName + "/melatitest/");
     clickLinkWithText("tableinfo/0/View");
     assertTextPresent("logicalDatabase = melatitest, table = tableinfo, troid = 0, method = View");
   }
+
   /**
    * Fill and click upload.
    */
-  public void testUpload() { 
+  @Test
+  public void testUpload() {
     setScriptingEnabled(false);
     beginAt("/org.melati.login.Login/admintest");
     setTextField("field_login", "_administrator_");
@@ -150,7 +144,7 @@ public class PoemServletTestTest extends JettyWebTestCase {
 
     assertTrue("Cannot find file src/main/java/org/melati/admin/static/file.gif",
         new File("src/main/java/org/melati/admin/static/file.gif").exists());
-    setTextField("file","src/main/java/org/melati/admin/static/file.gif");
+    setTextField("file", "src/main/java/org/melati/admin/static/file.gif");
     submit();
     assertWindowPresent("Upload");
     assertTrue("Cannot find file pom.xml", new File("pom.xml").exists());
@@ -160,10 +154,12 @@ public class PoemServletTestTest extends JettyWebTestCase {
     assertTextPresent("<groupId>org.melati</groupId>");
 
   }
+
   /**
    * Fill and click upload.
    */
-  public void testUploadNothing() { 
+  @Test
+  public void testUploadNothing() {
     setScriptingEnabled(false);
     beginAt("/org.melati.login.Login/admintest");
     setTextField("field_login", "_administrator_");
@@ -176,7 +172,6 @@ public class PoemServletTestTest extends JettyWebTestCase {
     submit();
     gotoWindow("Upload");
     assertTextPresent("No file was uploaded");
-    
   }
 
 }

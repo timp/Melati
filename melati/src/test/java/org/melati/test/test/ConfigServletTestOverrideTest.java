@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,39 +41,32 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.File;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author timp
- * @since  28 Feb 2008
- *
+ * @since 28 Feb 2008
  */
-public class ConfigServletTestOverrideTest extends ConfigServletTestTest{
+public class ConfigServletTestOverrideTest extends ConfigServletTestTest {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public ConfigServletTestOverrideTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    ConfigServletTestTest.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    ConfigServletTestTest.tearDown();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-
+  @Test
   public void testUpload() {
     if (System.getProperty("os.name").startsWith("Windows")) {
       return;
@@ -87,11 +77,11 @@ public class ConfigServletTestOverrideTest extends ConfigServletTestTest{
     assertTextPresent("org.melati.servlet.DefaultFileFormDataAdaptorFactory");
     assertTrue("Cannot find file src/main/java/org/melati/admin/static/file.gif",
         new File("src/main/java/org/melati/admin/static/file.gif").exists());
-    setTextField("file","src/main/java/org/melati/admin/static/file.gif");
+    setTextField("file", "src/main/java/org/melati/admin/static/file.gif");
     submit();
     assertWindowPresent("Upload");
     assertTrue("Cannot find file pom.xml", new File("pom.xml").exists());
-    setTextField("file","pom.xml");
+    setTextField("file", "pom.xml");
     submit();
     gotoWindow("Upload");
     assertTextPresent("<groupId>org.melati</groupId>");

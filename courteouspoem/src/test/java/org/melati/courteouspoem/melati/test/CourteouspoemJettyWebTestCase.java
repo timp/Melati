@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2010 Tim Pizey
  *
  *
@@ -13,7 +10,11 @@
 
 package org.melati.courteouspoem.melati.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 /**
  * @author timp
@@ -25,26 +26,19 @@ import org.melati.JettyWebTestCase;
 
 public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
 
-  public CourteouspoemJettyWebTestCase(String name) {
-    super(name);
+  public CourteouspoemJettyWebTestCase() {
     webAppDirName = "src/main/webapp";
     contextName = "";
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
@@ -61,9 +55,10 @@ public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
   /**
    * Just to say hello.
    */
+  @Test
   public void testIndex() {
     beginAt("/");
     assertTextPresent("Admin");
   }
-  
+
 }

@@ -1,9 +1,13 @@
-/**
- * 
- */
 package org.melati.admin.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.setScriptingEnabled;
 
 /**
  * @author timp
@@ -11,39 +15,20 @@ import org.melati.JettyWebTestCase;
  */
 public class StatusJettyWebTest extends JettyWebTestCase {
 
-  /**
-   * 
-   */
-  public StatusJettyWebTest() {
-    super();
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * @param name
-   */
-  public StatusJettyWebTest(String name) {
-    super(name);
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();    
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
    * Test Display.
    */
+  @Test
   public void testStatus() {
     setScriptingEnabled(false);
     beginAt("/Status/melatijunit");

@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -43,40 +40,34 @@
  */
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextNotPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
 
 /**
  * @author timp
  * @since 7 Mar 2008
- *
  */
 public class CharsetTemplateServletTestTest extends JettyWebTestCase {
 
-  /**
-   * @param name
-   */
-  public CharsetTemplateServletTestTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
-  /** 
-   * {@inheritDoc}
-   * @see junit.framework.TestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
   /**
    * Click link.
    */
+  @Test
   public void testException() throws Exception {
     beginAt("/org.melati.test.CharsetTemplateServletTest");
     assertTextNotPresent("Wrong");

@@ -44,7 +44,13 @@
 
 package org.melati.login.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
 
 /**
  * @author timp
@@ -53,31 +59,18 @@ import org.melati.JettyWebTestCase;
  */
 public class LogoutTest extends JettyWebTestCase {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public LogoutTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-
-  public void testLogoutWithContinuationURL() { 
+  @Test
+  public void testLogoutWithContinuationURL() {
     beginAt("/org.melati.login.Logout/melatitest?continuationURL=http://melati.org/doc/PoemUserGuide.html");
     assertTextPresent("org.melati.poem User Guide");   
   }

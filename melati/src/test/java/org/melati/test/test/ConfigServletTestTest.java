@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,59 +41,53 @@
 
 package org.melati.test.test;
 
-import java.io.File;
-
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import java.io.File;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author timp
- * @since  28 Feb 2008
- *
+ * @since 28 Feb 2008
  */
 public class ConfigServletTestTest extends JettyWebTestCase {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public ConfigServletTestTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
   /**
    * Click Exception link.
    */
+  @Test
   public void testException() {
     setScriptingEnabled(false);
     beginAt("/org.melati.test.ConfigServletTest");
-    try { 
+    try {
       clickLinkWithText("Exception");
-    } catch (FailingHttpStatusCodeException e) { 
+    } catch (FailingHttpStatusCodeException e) {
       assertEquals(500, e.getStatusCode());
     }
     assertTextPresent("MelatiBugMelatiException");
   }
+
   /**
    * Click Redirect link.
    */
+  @Test
   public void testRedirect() {
     setScriptingEnabled(false);
     beginAt("/org.melati.test.ConfigServletTest");
@@ -104,21 +95,23 @@ public class ConfigServletTestTest extends JettyWebTestCase {
     clickLinkWithText("Redirect");
     assertTextPresent("Melati is a tool");
   }
+
   /**
    * Fill and click upload.
    */
-  public void testUpload() { 
+  @Test
+  public void testUpload() {
     setScriptingEnabled(false);
     beginAt("/org.melati.test.ConfigServletTest");
     assertTextPresent("FormDataAdaptorFactory");
     assertTextPresent("org.melati.servlet.MemoryFormDataAdaptorFactory");
     assertTrue("Cannot find file src/main/java/org/melati/admin/static/file.gif",
         new File("src/main/java/org/melati/admin/static/file.gif").exists());
-    setTextField("file","src/main/java/org/melati/admin/static/file.gif");
+    setTextField("file", "src/main/java/org/melati/admin/static/file.gif");
     submit();
     assertWindowPresent("Upload");
     assertTrue("Cannot find file pom.xml", new File("pom.xml").exists());
-    setTextField("file","pom.xml");
+    setTextField("file", "pom.xml");
     submit();
     gotoWindow("Upload");
     assertTextPresent("<groupId>org.melati</groupId>");
@@ -127,13 +120,12 @@ public class ConfigServletTestTest extends JettyWebTestCase {
   /**
    * Fill and click upload.
    */
-  public void testUploadNothing() { 
+  public void testUploadNothing() {
     setScriptingEnabled(false);
     beginAt("/org.melati.test.ConfigServletTest");
     submit();
     gotoWindow("Upload");
     assertTextPresent("No file was uploaded");
-    
   }
 
 }

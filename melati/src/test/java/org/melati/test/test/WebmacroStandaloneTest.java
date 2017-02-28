@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2008 Tim Pizey
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -44,41 +41,31 @@
 
 package org.melati.test.test;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.melati.JettyWebTestCase;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author timp
- * @since  7 Mar 2008
- *
+ * @since 7 Mar 2008
  */
 public class WebmacroStandaloneTest extends JettyWebTestCase {
 
-  /**
-   * Constructor.
-   * @param name
-   */
-  public WebmacroStandaloneTest(String name) {
-    super(name);
+  @BeforeClass
+  public static void setUp() throws Exception {
+    JettyWebTestCase.setUp();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#setUp()
-   */
-  protected void setUp() throws Exception {
-    super.setUp();
+  @AfterClass
+  public static void tearDown() throws Exception {
+    JettyWebTestCase.tearDown();
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.melati.JettyWebTestCase#tearDown()
-   */
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-  /**
-   * @throws Exception
-   */
+  @Test
   public void testInvoke() throws Exception {
     beginAt("/org.melati.test.WebmacroStandalone");
     assertTextPresent("Here is a list of your stuff");
@@ -87,32 +74,27 @@ public class WebmacroStandaloneTest extends JettyWebTestCase {
     assertTextPresent("turquoise");
   }
 
-  /**
-   * @throws Exception
-   */
-  public void testOther() throws Exception { 
+  @Test
+  public void testOther() throws Exception {
     beginAt("/org.melati.test.WebmacroStandalone");
     assertTextPresent("Hello again");
     gotoPage("/org.melati.test.WebmacroStandalone?other=Jeremy");
     assertTextPresent("Jeremy");
   }
-  /**
-   * @throws Exception
-   */
-  public void testTemplateName() throws Exception { 
+
+  @Test
+  public void testTemplateName() throws Exception {
     beginAt("/org.melati.test.WebmacroStandalone?templateName=org/melati/test/WebmacroStandalone.wm");
     assertTextPresent("Hello again");
     gotoPage("/org.melati.test.WebmacroStandalone?templateName=org/melati/test/notThere");
     assertTextPresent("ERROR!  Could not locate template org/melati/test/notThere");
   }
-  /**
-   * @throws Exception
-   */
-  public void testUnknownVariableReferenced() throws Exception { 
+
+  @Test
+  public void testUnknownVariableReferenced() throws Exception {
     beginAt("/org.melati.test.WebmacroStandalone?die=true");
     beginAt("/org.melati.test.WebmacroStandalone?die=true");
     assertTrue(getPageSource().indexOf("Attempted to write an undefined variable") != -1);
   }
-
 
 }
