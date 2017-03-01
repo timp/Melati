@@ -1,7 +1,4 @@
 /*
- * $Source$
- * $Revision$
- *
  * Copyright (C) 2000 William Chesters
  *
  * Part of Melati (http://melati.org), a framework for the rapid
@@ -45,11 +42,6 @@
 
 package org.melati.admin;
 
-import java.util.Vector;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -59,50 +51,22 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.melati.Melati;
 import org.melati.PoemContext;
-import org.melati.servlet.FormDataAdaptor;
-import org.melati.servlet.InvalidUsageException;
-import org.melati.servlet.Form;
-import org.melati.servlet.TemplateServlet;
-import org.melati.template.ClassNameTempletLoader;
-import org.melati.template.JSONMarkupLanguage;
-import org.melati.template.MarkupLanguage;
-import org.melati.template.ServletTemplateContext;
-import org.melati.template.FormParameterException;
-
-import org.melati.poem.AccessToken;
-import org.melati.poem.AccessPoemException;
-import org.melati.poem.BaseFieldAttributes;
-import org.melati.poem.Capability;
-import org.melati.poem.Column;
-import org.melati.poem.ColumnInfo;
-import org.melati.poem.ColumnInfoTable;
-import org.melati.poem.ColumnTypePoemType;
-import org.melati.poem.Database;
-import org.melati.poem.DeletionIntegrityPoemException;
-import org.melati.poem.DisplayLevel;
-import org.melati.poem.ExecutingSQLPoemException;
-import org.melati.poem.Field;
-import org.melati.poem.FieldAttributes;
-import org.melati.poem.Initialiser;
-import org.melati.poem.NoSuchColumnPoemException;
-import org.melati.poem.Persistent;
-import org.melati.poem.PoemException;
-import org.melati.poem.PoemLocale;
-import org.melati.poem.PoemThread;
-import org.melati.poem.PoemTypeFactory;
-import org.melati.poem.ReferencePoemType;
-import org.melati.poem.Setting;
-import org.melati.poem.Table;
-import org.melati.poem.TableInfo;
-import org.melati.poem.TableInfoTable;
-import org.melati.poem.ValidationPoemException;
-
-import org.melati.util.CountedDumbPagedEnumeration;
+import org.melati.poem.*;
 import org.melati.poem.util.EnumUtils;
 import org.melati.poem.util.MappedEnumeration;
+import org.melati.servlet.Form;
+import org.melati.servlet.FormDataAdaptor;
+import org.melati.servlet.InvalidUsageException;
+import org.melati.servlet.TemplateServlet;
+import org.melati.template.*;
+import org.melati.util.CountedDumbPagedEnumeration;
 import org.melati.util.MelatiBugMelatiException;
 import org.melati.util.MelatiIOException;
 import org.melati.util.MelatiRuntimeException;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * Melati template servlet for database administration.
@@ -693,11 +657,12 @@ public class Admin extends TemplateServlet {
     return adminTemplate("Updated");
   }
 
-  protected String doTemplateRequest(Melati melati,
-      ServletTemplateContext context) throws Exception {
+  protected String doTemplateRequest(
+      Melati melati,
+      ServletTemplateContext context)
+      throws Exception {
     if (melati.getMethod().equals("Proxy"))
       return proxy(melati, context);
-    melati.getSession().setAttribute("generatedByMelatiClass",this.getClass().getName());
 
     context.put("admin", new AdminUtils(melati));
     
@@ -795,12 +760,12 @@ public class Admin extends TemplateServlet {
   private String proxy(Melati melati, ServletTemplateContext context) {
     if (melati.getSession().getAttribute("generatedByMelatiClass") == null)
       throw new AnticipatedException("Only available from within an Admin generated page");
+    melati.getSession().removeAttribute("generatedByMelatiClass");
     String method = melati.getRequest().getMethod();
     String url =  melati.getRequest().getQueryString();
     HttpServletResponse response = melati.getResponse();
-    HttpMethod httpMethod = null; 
+    HttpMethod httpMethod = null;
     try { 
-
       HttpClient client = new HttpClient();
       if (method.equals("GET"))
         httpMethod = new GetMethod(url);
