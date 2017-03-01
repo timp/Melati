@@ -44,11 +44,8 @@ package org.melati.test.test;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.melati.JettyWebTestCase;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.clickLinkWithText;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setScriptingEnabled;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -81,7 +78,7 @@ public class TemplateServletTestOverrideTest extends TemplateServletTestTest {
       clickLinkWithText("?propagate=true");
       fail("Should have bombed");
     } catch (Exception e) {
-      assertTrue(e.getMessage().indexOf("401 You need the capability _administer_ but your access token _guest_ doesnt confer it") != -1);
+      assertTrue(e.getMessage(), e.getMessage().startsWith("401 You need the capability _administer_ but your access token _guest_"));
     }
   }
 
