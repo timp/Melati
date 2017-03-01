@@ -87,6 +87,7 @@ public class HttpAuthenticationPoemServletTestTest extends PoemServletTestTest {
   /**
    * Click Exception link.
    */
+  @Test
   public void testAccessAllowed() {
     //FIXME Sort out how to do this with htmlUnit
   }
