@@ -58,11 +58,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class PoemServletTestTest extends JettyWebTestCase {
 
-  protected static String servletName = "org.melati.test.PoemServletTest";
+  protected static String servletName;
 
   @BeforeClass
   public static void setUp() throws Exception {
     JettyWebTestCase.setUp();
+    servletName = "org.melati.test.PoemServletTest";
   }
 
   @AfterClass
