@@ -1,9 +1,5 @@
 package org.melati;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-
 import net.sourceforge.jwebunit.junit.JWebUnit;
 import net.sourceforge.jwebunit.util.TestingEngineRegistry;
 import org.eclipse.jetty.server.Handler;
@@ -11,14 +7,16 @@ import org.eclipse.jetty.server.NetworkConnector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.StdErrLog;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 import static org.junit.Assert.assertEquals;
@@ -48,7 +46,6 @@ public class JettyWebTestCase {
     // Port 0 means "assign arbitrarily port number"
     actualPort = startServer(0);
     String baseUrl = "http://localhost:" + actualPort + "/" + getContextName() + "/";
-    System.err.println("BaseUrl:" + baseUrl);
     setBaseUrl(baseUrl);
   }
 
@@ -58,15 +55,15 @@ public class JettyWebTestCase {
       server.stop();
     }
   }
-  /*
+
   public static void main(String[] args) throws Exception {
     actualPort = startServer(8080);
   }
-*/
+
   protected static int startServer(int port) throws Exception {
     Log.setLog(new StdErrLog());
 
-    if (!started) { 
+    if (!started || ((NetworkConnector) server.getConnectors()[0]).getLocalPort() < 0) {
       server = new Server(port);
       WebAppContext wac = new WebAppContext();
       wac.setContextPath("/" + getContextName());
@@ -78,11 +75,10 @@ public class JettyWebTestCase {
       handlers.setHandlers(new Handler[] { wac, new DefaultHandler()});
       server.setHandler(handlers);
       server.start();
-      //server.dumpStdErr();
       started = true;
     }
+
     return ((NetworkConnector)server.getConnectors()[0]).getLocalPort();
-    
   }
   
   protected int getActualPort() { 
