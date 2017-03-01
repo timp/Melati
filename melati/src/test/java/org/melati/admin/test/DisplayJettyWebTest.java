@@ -5,8 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.melati.JettyWebTestCase;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
+import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
 
 /**
@@ -42,6 +41,7 @@ public class DisplayJettyWebTest extends JettyWebTestCase {
     beginAt("/Display/melatijunit/User/0/org/melati/admin/Display");
     assertTextPresent("Melati guest user");
   }
+
   /**
    * Test Display using default template.
    */
@@ -59,6 +59,7 @@ public class DisplayJettyWebTest extends JettyWebTestCase {
     beginAt("/Display/melatijunit/User/0/?template=org/melati/admin/Display");
     assertTextPresent("Melati guest user");
   }
+
   /**
    * Test Display using default template.
    */
@@ -77,4 +78,17 @@ public class DisplayJettyWebTest extends JettyWebTestCase {
     assertTextPresent("null");
   }
 
+  @Test
+  public void testProxy() {
+    //Not allowed as we have yet to add token to session
+    String dbName = "melatijunit";
+    // Allowed
+    beginAt("/Display/" + dbName + "?template=org.melati.admin.test.ProxyCaller");
+    clickLinkWithText("google");
+
+    // Allowed
+    beginAt("/Display/" + dbName + "?template=org.melati.admin.test.ProxyCaller");
+    clickLinkWithText("check");
+
+  }
 }
