@@ -81,7 +81,7 @@ public class HttpAuthenticationPoemServletTestTest extends PoemServletTestTest {
       System.err.println(e.getMessage());
       assertEquals(e.getMessage().indexOf("401"), 0);
     }
-    assertTextPresent("Error 401");
+    assertTextPresent("HTTP ERROR 401");
     assertTextPresent("You need the capability _administer_ ");
   }
   /**
