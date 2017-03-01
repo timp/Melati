@@ -57,9 +57,9 @@ public class HttpAuthenticationPoemServletTest extends PoemServletTest {
 
   /**
    * How to use a different melati configuration.
-   * 
-   * This is not a good place to poulate the FormDataAdaptorFactory, 
-   * as that requires that you are not already in a databse session, 
+   *
+   * This is not a good place to ppoulate the FormDataAdaptorFactory,
+   * as that requires that you are not already in a database session,
    * as it creates entries in the settings table. 
    */
     protected MelatiConfig melatiConfig() {
