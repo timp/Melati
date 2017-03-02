@@ -6,10 +6,6 @@
 
   <!-- ============================================================= -->
   <!--  A simple Servlet 2.3 setup for Melati                        -->
-  <!--                                                               -->
-  <!-- $Date$                                  -->
-  <!-- $Author$                                               -->
-  <!--                                                               -->
   <!-- ============================================================= -->
 <web-app>
 
@@ -18,10 +14,8 @@
   <listener>
     <listener-class>org.melati.servlet.PoemServletContextListener</listener-class>
   </listener>
-  
-
-<!-- Register every servlet used in the site -->
-<!-- I don't like this -->
+  <!-- Register every servlet used in the site -->
+  <!-- I don't like this -->
 
   <servlet>
     <servlet-name>org.melati.admin.Admin</servlet-name>
@@ -112,7 +106,11 @@
     <servlet-name>org.melati.test.WebmacroStandalone</servlet-name>
     <servlet-class>org.melati.test.WebmacroStandalone</servlet-class>
   </servlet>
-  
+  <servlet>
+    <servlet-name>org.melati.test.ExitServlet</servlet-name>
+    <servlet-class>org.melati.test.ExitServlet</servlet-class>
+  </servlet>
+
   <servlet>
     <servlet-name>org.melati.login.Login</servlet-name>
     <servlet-class>org.melati.login.Login</servlet-class>
