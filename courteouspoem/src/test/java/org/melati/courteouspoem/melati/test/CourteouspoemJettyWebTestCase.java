@@ -14,15 +14,15 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.melati.JettyWebTestCase;
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
+
+import static net.sourceforge.jwebunit.junit.JWebUnit.assertTextPresent;
+import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
 
 /**
  * @author timp
  * @since  3 Mar 2009
  *
  */
-
-
 
 public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
 
@@ -43,8 +43,6 @@ public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
 
   /**
    * If you don't know by now.
-   * @param args
-   * @throws Exception
    */
   public static void main(String[] args) throws Exception {
     contextName = "";
