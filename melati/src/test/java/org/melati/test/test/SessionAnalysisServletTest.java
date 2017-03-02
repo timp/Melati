@@ -72,7 +72,7 @@ public class SessionAnalysisServletTest extends JettyWebTestCase {
   @Test
   public void testInvoke() throws Exception {
 
-    beginAt("/");
+    beginAt("/Logout/melatitest");
     gotoPage("/Admin/melatitest/Main");
     gotoFrame("admin_top");
     clickButton("login");
