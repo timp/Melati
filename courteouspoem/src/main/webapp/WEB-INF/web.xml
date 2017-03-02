@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <!DOCTYPE web-app
   PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
   "http://java.sun.com/dtd/web-app_2_3.dtd">
 
   <!-- ============================================================= -->
   <!--  A simple Servlet 2.3 setup for Courteouspoem                        -->
-  <!--                                                               -->
-  <!-- \$Date$                                  -->
-  <!-- \$Author$                                               -->
-  <!--                                                               -->
   <!-- ============================================================= -->
 <web-app>
 
   <display-name>Courteouspoem</display-name>
 
-<!-- Register every servlet used in the site -->
+  <listener>
+    <listener-class>org.melati.servlet.PoemServletContextListener</listener-class>
+  </listener>
+
+  <!-- Register every servlet used in the site -->
+  <!-- I don't like this -->
 
   <servlet>
     <servlet-name>org.melati.admin.Admin</servlet-name>
     <servlet-class>org.melati.admin.Admin</servlet-class>
   </servlet>
-  
+
+  <servlet>
+    <servlet-name>org.melati.admin.Copy</servlet-name>
+    <servlet-class>org.melati.admin.Copy</servlet-class>
+  </servlet>
+
   <servlet>
     <servlet-name>org.melati.admin.Display</servlet-name>
     <servlet-class>org.melati.admin.Display</servlet-class>
@@ -110,7 +115,12 @@
     <servlet-name>org.melati.login.Logout</servlet-name>
     <servlet-class>org.melati.login.Logout</servlet-class>
   </servlet>
-  
+
+  <!-- courteouspoem specific -->
+  <servlet>
+    <servlet-name>org.melati.courteouspoem.CourteouspoemServlet</servlet-name>
+    <servlet-class>org.melati.courteouspoem.CourteouspoemServlet</servlet-class>
+  </servlet>
 
 <!-- Now map them to URLs -->
   <servlet-mapping>
@@ -295,15 +305,7 @@
     <url-pattern>/Logout/*</url-pattern>
   </servlet-mapping>
 
-  <listener>
-    <listener-class>org.melati.servlet.PoemServletContextListener</listener-class>
-  </listener>
-
-<!-- courteouspoem specific -->
-  <servlet>
-    <servlet-name>org.melati.courteouspoem.CourteouspoemServlet</servlet-name>
-    <servlet-class>org.melati.courteouspoem.CourteouspoemServlet</servlet-class>
-  </servlet>
+  <!-- courteouspoem specific -->
   <servlet-mapping>
     <servlet-name>org.melati.courteouspoem.CourteouspoemServlet</servlet-name>
     <url-pattern>/org.melati.courteouspoem.CourteouspoemServlet/*</url-pattern>
