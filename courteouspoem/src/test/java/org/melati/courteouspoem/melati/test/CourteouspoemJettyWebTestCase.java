@@ -25,10 +25,12 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
  */
 
 public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
+  static {
+    contextName = "";
+    webAppDirName = "src/main/webapp";
+  }
 
   public CourteouspoemJettyWebTestCase() {
-    webAppDirName = "src/main/webapp";
-    contextName = "";
   }
 
   @BeforeClass
@@ -45,8 +47,6 @@ public class CourteouspoemJettyWebTestCase extends JettyWebTestCase {
    * If you don't know by now.
    */
   public static void main(String[] args) throws Exception {
-    contextName = "";
-    webAppDirName = "src/main/webapp";
     startServer(8080);
   }
 
